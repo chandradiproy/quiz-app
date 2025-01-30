@@ -36,7 +36,7 @@ export const useQuizStore = create((set) => ({
                 selectedOption: option,
                 feedback: isCorrect ? "✅ Correct!" : "❌ Incorrect!",
                 
-                detailedSolution:isCorrect? currentQuestion.detailed_solution: null,
+                detailedSolution:currentQuestion.detailed_solution,
                 score: updatedScore,
             };
         });
