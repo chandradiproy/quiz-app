@@ -11,6 +11,12 @@ export const useQuizStore = create((set) => ({
     feedback: null, // for storing the feedback
     detailedSolution: null, // for storing the detailed solution
     quizCompleted: false, // for tracking the quiz completion
+    isQuizStarted: false, // for tracking the quiz start
+
+    setIsQuizStarted: (value) => {
+        set({ isQuizStarted: value });
+    },
+
 
     fetchQuestions: async () => {
         set({ loading: true });

@@ -9,9 +9,9 @@ function App() {
   // const { fetchQuestions, questions, loading } = useQuizeStore();
 
   return (
-    <div className='App bg-gradient-to-r from-[#24243e] via-[#302b63] to-[#0f0c29] ' >
-     <Quiz/>
-    </div>
+<div className="App bg-gradient-to-r from-[#E2E2E2] to-[#C9D6FF] dark:from-[#24243e] dark:via-[#302b63] dark:to-[#0f0c29]">
+  <Quiz />
+</div>
   );
 }
 

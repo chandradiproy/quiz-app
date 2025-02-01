@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useQuizStore } from "../store/quiz.store"; // adjust the path if necessary
 import { ChevronUp } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const Quiz = () => {
-  const { questions, score, loading, fetchQuestions, selectOption } =
-    useQuizStore();
+  const {
+    questions,
+    score,
+    loading,
+    fetchQuestions,
+    selectOption,
+    isQuizStarted,
+    setIsQuizStarted,
+  } = useQuizStore();
+  const { width, height } = useWindowSize();
 
   const [selectedOptions, setSelectedOptions] = useState([]); // Track selected options for each question
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [detailedSolutions, setDetailedSolutions] = useState({}); // Track visibility of detailed solutions for each question
 
-  useEffect(() => {
-    fetchQuestions();
-  }, [fetchQuestions]);
+  // useEffect(() => {
+  //   fetchQuestions();
+  // }, [fetchQuestions]);
 
   // Handle option selection
   const handleSelectOption = (questionId, option) => {
@@ -27,6 +39,11 @@ const Quiz = () => {
   // Handle submit
   const handleSubmit = () => {
     setQuizSubmitted(true); // Mark quiz as submitted
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const handleClick = () => {
+    fetchQuestions();
+    setIsQuizStarted(true);
   };
 
   // Toggle detailed answer visibility for a specific question
@@ -37,12 +54,37 @@ const Quiz = () => {
     }));
   };
 
+  if (!isQuizStarted) {
+    return (
+      <div className="min-h-screen dark:bg-zinc-800/35 text-white flex flex-col items-center justify-center py-8">
+        <div className="text-2xl font-semibold text-center">
+          Hi, Please click the below button to start the quiz
+        </div>
+        <button
+          onClick={handleClick}
+          className="mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-500 hover:cursor-pointer text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        >
+          Start
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen dark:bg-zinc-800/35 text-white flex flex-col items-center justify-center py-8">
       {loading ? (
         <div className="text-xl">Loading...</div>
       ) : (
-        <div className="w-full max-w-4xl space-y-6">
+        <div className="w-full flex items-center flex-col  max-w-4xl space-y-6">
+          {quizSubmitted && (
+            <div className="mt-6 text-center">
+              {score > 7 && <Confetti  /> }
+              
+
+              <h3 className="text-2xl font-bold">Quiz Completed!</h3>
+              <p className="text-xl">Your score: {score > 7 ? <span className="text-green-600">{score}</span> :  <span className="text-red-700">{score}</span> }</p>
+            </div>
+          )}
           {questions.map((question, index) => {
             const selectedOption = selectedOptions[index];
             const isSelectedQuestion = detailedSolutions[index]; // Check if detailed solution is visible for this question
@@ -50,12 +92,12 @@ const Quiz = () => {
             return (
               <div
                 key={question.id}
-                className="w-full dark:bg-gray-900/50 bg-gray-200/70 backdrop-blur-3xl p-6 rounded-lg shadow-xl"
+                className="sm:w-full w-[90vw] dark:bg-gray-900/50 bg-white/30 backdrop-blur-3xl p-6 rounded-lg shadow-xl"
               >
-                <h2 className="text-xl dark:text-gray-100 text-gray-700 font-semibold mb-4">
+                <h2 className="sm:text-xl text-[4vw] dark:text-gray-100 text-gray-700 font-bold  mb-4">
                   Q{index + 1}. {question.description}
                 </h2>
-                <h3 className="text-md dark:text-gray-100 text-gray-700 font-light mb-4">
+                <h3 className="text-md dark:text-gray-400 text-gray-700 font-light mb-4">
                   #
                   {question.reading_material.keywords
                     ? Array.isArray(
@@ -78,7 +120,7 @@ const Quiz = () => {
                     return (
                       <div
                         key={option.id}
-                        className={`flex items-center space-x-2 border-2 p-2 rounded-lg 
+                        className={`flex items-center space-x-2 border-2 dark:border-gray-200 border-gray-600/30 p-2 rounded-lg hover:cursor-pointer
                           ${
                             quizSubmitted
                               ? isCorrect
@@ -120,21 +162,30 @@ const Quiz = () => {
                       {isSelectedQuestion ? (
                         <span className="flex items-center hover:cursor-pointer">
                           <span>Hide Answer</span>
-                          <ChevronUp size={25} className="ml-2  transition-all delay-75 ease-in-out" />
+                          <ChevronUp
+                            size={25}
+                            className="ml-2  transition-all delay-75 ease-in-out"
+                          />
                         </span>
                       ) : (
                         <span className="flex items-center hover:cursor-pointer">
                           <span>Show Answer</span>
-                          <ChevronUp size={25} className="ml-2 rotate-180 transition-all delay-75 ease-in-out" />
+                          <ChevronUp
+                            size={25}
+                            className="ml-2 rotate-180 transition-all delay-75 ease-in-out"
+                          />
                         </span>
                       )}
                     </button>
 
                     {isSelectedQuestion && (
-                      <p className="text-sm text-gray-500 dark:text-gray-300 mt-2">
+                      <ReactMarkdown
+                        remarkPlugins={remarkGfm}
+                        className="text-sm text-gray-500 dark:text-gray-300 mt-2 prose prose-sm dark:prose-invert"
+                      >
                         {question.detailed_solution ||
                           "No detailed solution available"}
-                      </p>
+                      </ReactMarkdown>
                     )}
                   </div>
                 )}
@@ -150,13 +201,6 @@ const Quiz = () => {
               >
                 Submit Quiz
               </button>
-            </div>
-          )}
-
-          {quizSubmitted && (
-            <div className="mt-6 text-center">
-              <h3 className="text-2xl font-bold">Quiz Completed!</h3>
-              <p className="text-xl">Your score: {score}</p>
             </div>
           )}
         </div>
