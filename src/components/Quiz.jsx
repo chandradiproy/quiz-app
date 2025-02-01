@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import { motion } from "framer-motion";
 
 const Quiz = () => {
   const {
@@ -71,7 +72,7 @@ const Quiz = () => {
   }
 
   return (
-    <div className="min-h-screen dark:bg-zinc-800/35 bg-gray-50 text-gray-800 dark:text-white flex flex-col items-center justify-center py-8">
+    <div className="min-h-screen  text-gray-800 dark:text-white flex flex-col items-center justify-center py-8">
       {loading ? (
         <div className="text-xl">Loading...</div>
       ) : (
@@ -98,7 +99,7 @@ const Quiz = () => {
             return (
               <div
                 key={question.id}
-                className="sm:w-full w-[90vw] dark:bg-gray-900/50 bg-white/30 backdrop-blur-3xl p-6 rounded-lg shadow-xl"
+                className="sm:w-full w-[90vw] bg-transparent  p-6 rounded-lg shadow-xl"
               >
                 <h2 className="sm:text-xl text-[4vw] dark:text-gray-100 text-gray-700 font-bold font-sans mb-4">
                   Q{index + 1}. {question.description}
@@ -126,7 +127,7 @@ const Quiz = () => {
                     return (
                       <div
                         key={option.id}
-                        className={`flex items-center space-x-2 border-2  p-2 rounded-lg 
+                        className={`flex items-center space-x-2 border-1  p-2 rounded-lg 
                           ${
                             quizSubmitted
                               ? isCorrect
@@ -148,12 +149,14 @@ const Quiz = () => {
                           onChange={() => handleSelectOption(index, option)}
                           className="w-4 h-4 bg-blue-600 border-blue-400"
                         />
-                        <label
+                        <motion.label
                           htmlFor={option.id}
-                          className="text-lg dark:text-gray-100 text-gray-700 w-full hover:cursor-pointer hover:animate-bounce"
+                          className="text-lg dark:text-gray-100 text-gray-700 w-full hover:cursor-pointer "
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ duration: 0.2 }}
                         >
                           {option.description}
-                        </label>
+                        </motion.label>
                       </div>
                     );
                   })}

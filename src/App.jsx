@@ -1,8 +1,6 @@
 import React from 'react';
 // import { useQuizeStore } from './store/quiz.store.js';
 import Quiz from './components/Quiz.jsx';
-import darkBG from '../public/background/rm218-bb-07.jpg'
-import lightBG from '../public/background/vivid-blurred-colorful-background.jpg'
 
 
 function App() {

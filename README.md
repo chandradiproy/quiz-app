@@ -2,6 +2,19 @@
 
 This is a React-based quiz application that allows users to take a quiz, select answers, and view detailed solutions for each question. The app features confetti effects upon quiz completion, shows answers, and provides a clean and responsive design using Tailwind CSS.
 
+![dark-mode-sample](./assets/screenshots/dark.png) 
+![light-mode-sample](./assets/screenshots/light.png)
+![mobile-view-sample](./assets/screenshots/mobile-view.png)
+
+<video width="100%" height="240" controls>
+  <source src="./assets/videos/Screen Recording 2025-02-02 013157.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+
+
+
 ## Features
 
 - **Dynamic Question Rendering**: Questions and options are fetched from a central store and displayed dynamically.
