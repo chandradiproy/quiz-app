@@ -56,7 +56,7 @@ const Quiz = () => {
 
   if (!isQuizStarted) {
     return (
-      <div className="min-h-screen dark:bg-zinc-800/35 text-white flex flex-col items-center justify-center py-8">
+      <div className="min-h-screen dark:bg-zinc-800/35 bg-gray-50 text-gray-800 dark:text-white flex flex-col items-center justify-center py-8">
         <div className="text-2xl font-semibold text-center">
           Hi, Please click the below button to start the quiz
         </div>
@@ -71,18 +71,24 @@ const Quiz = () => {
   }
 
   return (
-    <div className="min-h-screen dark:bg-zinc-800/35 text-white flex flex-col items-center justify-center py-8">
+    <div className="min-h-screen dark:bg-zinc-800/35 bg-gray-50 text-gray-800 dark:text-white flex flex-col items-center justify-center py-8">
       {loading ? (
         <div className="text-xl">Loading...</div>
       ) : (
-        <div className="w-full flex items-center flex-col  max-w-4xl space-y-6">
+        <div className="w-full flex items-center flex-col max-w-4xl space-y-6">
           {quizSubmitted && (
             <div className="mt-6 text-center">
-              {score > 7 && <Confetti  /> }
-              
+              {score > 7 && <Confetti />}
 
               <h3 className="text-2xl font-bold">Quiz Completed!</h3>
-              <p className="text-xl">Your score: {score > 7 ? <span className="text-green-600">{score}</span> :  <span className="text-red-700">{score}</span> }</p>
+              <p className="text-xl">
+                Your score:{" "}
+                {score > 7 ? (
+                  <span className="text-green-600">{score}</span>
+                ) : (
+                  <span className="text-red-700">{score}</span>
+                )}
+              </p>
             </div>
           )}
           {questions.map((question, index) => {
@@ -94,7 +100,7 @@ const Quiz = () => {
                 key={question.id}
                 className="sm:w-full w-[90vw] dark:bg-gray-900/50 bg-white/30 backdrop-blur-3xl p-6 rounded-lg shadow-xl"
               >
-                <h2 className="sm:text-xl text-[4vw] dark:text-gray-100 text-gray-700 font-bold  mb-4">
+                <h2 className="sm:text-xl text-[4vw] dark:text-gray-100 text-gray-700 font-bold font-sans mb-4">
                   Q{index + 1}. {question.description}
                 </h2>
                 <h3 className="text-md dark:text-gray-400 text-gray-700 font-light mb-4">
@@ -120,7 +126,7 @@ const Quiz = () => {
                     return (
                       <div
                         key={option.id}
-                        className={`flex items-center space-x-2 border-2 dark:border-gray-200 border-gray-600/30 p-2 rounded-lg hover:cursor-pointer
+                        className={`flex items-center space-x-2 border-2  p-2 rounded-lg 
                           ${
                             quizSubmitted
                               ? isCorrect
@@ -144,7 +150,7 @@ const Quiz = () => {
                         />
                         <label
                           htmlFor={option.id}
-                          className="text-lg dark:text-gray-100 text-gray-700 w-full"
+                          className="text-lg dark:text-gray-100 text-gray-700 w-full hover:cursor-pointer hover:animate-bounce"
                         >
                           {option.description}
                         </label>
@@ -164,7 +170,7 @@ const Quiz = () => {
                           <span>Hide Answer</span>
                           <ChevronUp
                             size={25}
-                            className="ml-2  transition-all delay-75 ease-in-out"
+                            className="ml-2 transition-all delay-75 ease-in-out"
                           />
                         </span>
                       ) : (
@@ -197,7 +203,7 @@ const Quiz = () => {
             <div className="mt-6 w-full flex justify-center">
               <button
                 onClick={handleSubmit}
-                className="w-fit py-2 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="w-fit py-2 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 hover:cursor-pointer"
               >
                 Submit Quiz
               </button>
