@@ -6,10 +6,8 @@ This is a React-based quiz application that allows users to take a quiz, select 
 ![light-mode-sample](./assets/screenshots/light.png)
 ![mobile-view-sample](./assets/screenshots/mobile-view.png)
 
-<video width="100%" height="240" controls>
-  <source src="./assets/videos/Screen Recording 2025-02-02 013157.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Download the video](./assets/videos/Screen%20Recording%202025-02-02%20013157.mp4)
+
 
 
 
